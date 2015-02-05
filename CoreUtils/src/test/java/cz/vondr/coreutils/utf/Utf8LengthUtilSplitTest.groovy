@@ -4,10 +4,21 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 
-class Utf8LengthUtilTest {
+class Utf8LengthUtilSplitTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none()
+
+    @Test
+    void 'split by Utf8 length'() {
+        def testSample = 'abcdefghij¶‱\uD834\uDD61#'
+        def result = Utf8LengthUtil.splitByUtf8Length(testSample, 10)
+
+        assert result[0] == "abcdefghij"
+        def combined = result[0] + result[1]
+        assert combined.length() == testSample.length()
+        assert combined == testSample
+    }
 
     @Test
     public void 'cannot split string by 3 bytes'() {
@@ -37,17 +48,6 @@ class Utf8LengthUtilTest {
         List<String> splitResult = Utf8LengthUtil.splitByUtf8Length(null, 20)
 
         assert splitResult == []
-    }
-
-    @Test
-    void 'split by Utf8 length'() {
-        def testSample = 'abcdefghij¶‱\uD834\uDD61#'
-        def result = Utf8LengthUtil.splitByUtf8Length(testSample, 10)
-
-        assert result[0] == "abcdefghij"
-        def combined = result[0] + result[1]
-        assert combined.length() == testSample.length()
-        assert combined == testSample
     }
 
 }
