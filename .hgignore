@@ -1,0 +1,4 @@
+syntax: glob
+CoreUtils/.idea/
+CoreUtils/CoreUtils.iml
+CoreUtils/target/
